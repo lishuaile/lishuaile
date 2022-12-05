@@ -1,0 +1,5 @@
+<l-input label="手机号"  placeholder="请输入手机号"  bind:lininput="phone" />
+<l-input label="验证码"  placeholder="短信验证码"  bind:lininput="catCode" />
+<l-button  disabled="{{disableds}}" bindtap="getCode">{{msg}}</l-button>
+
+<l-button  bindtap="login">登录</l-button>

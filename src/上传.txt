@@ -1,0 +1,17 @@
+	//图片上传
+	onChangeTap(e){
+		let img=e.detail.all
+		img.map(item=>{
+			wx.uploadFile({
+				filePath: item,
+				name: 'url',
+				url: 'http://www.2004a.com/index.php/acticleImg',
+				success:res=>{
+					let json=	JSON.parse(res.data)
+				this.setData({
+					img:this.data.img.concat(json.data)
+				})
+				}
+			})
+		})
+	},

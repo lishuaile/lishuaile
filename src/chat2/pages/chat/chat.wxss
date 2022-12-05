@@ -1,0 +1,7 @@
+.my,.you{
+    margin:30rpx;
+}
+.my{
+    width: 380px;
+    text-align:right;
+}

@@ -1,0 +1,11 @@
+<button bindtap="close">退出链接</button>
+<view>
+
+    <block wx:for="{{list}}" wx:key="key"  wx:for-item="item">
+      {{item}}
+        <view class="{{item.class}}">{{item.class}}:{{item.msg}}</view>
+    </block>
+</view>
+<input type="text" bindblur="txt"/>
+<button bindtap="btn">发送</button>
+<button bindtap="btn2">防抖测试</button>

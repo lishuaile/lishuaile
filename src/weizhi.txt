@@ -1,0 +1,72 @@
+<map name="" latitude="{{oneself.latitude}}" longitude="{{oneself.longitude}}" bindtap="place" show-location :markers="covers" :scale="scale" polyline="{{polyline_Object}}" style="width: 100%;height: 700rpx;"></map>
+
+oneself:{
+            latitude:"",
+            longitude:"",
+        },
+        polyline_Object:[
+            {
+            points:[],
+            color: "#3FB837",
+            width: 3,
+            dottedLine: false
+            }
+        ]
+
+
+onReady: function () {
+        var that = this
+        //获取当前的地理位置、速度
+        wx.getLocation({
+            type: 'wgs84', // 默认为 wgs84 返回 gps 坐标，gcj02 返回可用于 wx.openLocation 的坐标
+            success: function (res) {
+                console.log(res);
+                //赋值经纬度
+                that.setData({
+                    oneself:{
+                        longitude:res.longitude,
+                        latitude:res.latitude
+                    }
+                })
+                
+            }
+        })
+    },
+    place(e){
+        console.log(e);
+        let oneself_latitude=this.data.oneself.latitude;
+        let oneself_longitude=this.data.oneself.longitude;
+        let end_latitude=e.detail.latitude;
+        let end_longitude=e.detail.longitude;
+        let that=this;
+        wx.request({
+          url: 'https://apis.map.qq.com/ws/direction/v1/walking/?from='+oneself_latitude+','+oneself_longitude+'&to='+end_latitude+','+end_longitude+'&key='+	
+          'JDZBZ-WSNWX-A7S4S-7Y5PF-MDHRV-OHF3J',
+          success(res){
+              console.log(res);
+              if (res.data.status == 0) {
+                let coors = res.data.result.routes[0].polyline;
+                for (let i = 2; i < coors.length; i++) {
+                    coors[i] = coors[i - 2] + coors[i] / 1000000
+                }
+                var coors_new = [] //记住微信小程序声明一个数组这样写
+                for (var j = 0; j < coors.length; j++) {
+                    coors_new.push({
+                        latitude: parseFloat(coors[j]),
+                        longitude: parseFloat(coors[j + 1])
+                    })
+                    j++;
+                }
+                that.setData({
+                    polyline_Object:[{
+                        points:coors_new,
+                        color: "#3FB837",
+                        width: 3,
+                        dottedLine: false
+                    }]
+                })
+                
+            }
+          }
+        })
+    },

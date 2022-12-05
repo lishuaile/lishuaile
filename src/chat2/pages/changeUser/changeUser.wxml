@@ -1,0 +1,11 @@
+<view>
+
+
+    <block wx:for="{{data}}" wx:key="timeStamp" wx:for-item="item">
+        <view>
+            <text bindtap="change" data-id="{{item.id}}">{{item.name}}</text>
+            <text>\n\n\n\n</text>
+        </view>
+    </block>
+
+</view>
